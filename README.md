@@ -1,4 +1,4 @@
-# 🎓 Vicharanshala Lab — FAQ Crowdsourcing Platform
+#  Vicharanshala Lab — FAQ Crowdsourcing Platform
 ### IIT Ropar Community Knowledge Base
 
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org)

@@ -35,12 +35,12 @@ export default function LandingPage() {
   });
 
   const features = [
-    { icon: Brain, title: 'AI-Powered Search', desc: 'Semantic search finds the most relevant answers instantly, even for complex research queries.', color: 'from-purple-500 to-indigo-500' },
-    { icon: Users, title: 'Community Validated', desc: 'Answers are crowd-verified by peers, faculty and researchers ensuring high accuracy.', color: 'from-blue-500 to-cyan-500' },
-    { icon: Award, title: 'Gamified Learning', desc: 'Earn reputation, badges and climb the leaderboard as you contribute to the knowledge base.', color: 'from-amber-500 to-orange-500' },
-    { icon: Globe, title: 'Knowledge Graph', desc: 'Explore interconnected topics visually — discover how research areas relate to each other.', color: 'from-green-500 to-teal-500' },
-    { icon: Shield, title: 'Wiki Collaboration', desc: 'Verified answers can be collaboratively improved like Wikipedia for lasting accuracy.', color: 'from-pink-500 to-rose-500' },
-    { icon: TrendingUp, title: 'Research Analytics', desc: 'Visual dashboards reveal trending topics, hot research areas, and community engagement.', color: 'from-violet-500 to-purple-500' },
+    { icon: Brain, title: 'AI-Powered Search', desc: 'Semantic search finds the most relevant answers instantly, even for complex research queries.', color: 'from-primary-500 to-primary-700' },
+    { icon: Users, title: 'Community Validated', desc: 'Answers are crowd-verified by peers, faculty and researchers ensuring high accuracy.', color: 'from-ropar-accent to-ropar-blue' },
+    { icon: Award, title: 'Gamified Learning', desc: 'Earn reputation, badges and climb the leaderboard as you contribute to the knowledge base.', color: 'from-ropar-gold to-primary-500' },
+    { icon: Globe, title: 'Knowledge Graph', desc: 'Explore interconnected topics visually — discover how research areas relate to each other.', color: 'from-shivalik-500 to-ropar-blue' },
+    { icon: Shield, title: 'Wiki Collaboration', desc: 'Verified answers can be collaboratively improved like Wikipedia for lasting accuracy.', color: 'from-primary-600 to-ropar-gold' },
+    { icon: TrendingUp, title: 'Research Analytics', desc: 'Visual dashboards reveal trending topics, hot research areas, and community engagement.', color: 'from-ropar-accent to-primary-500' },
   ];
 
   const statsDisplay = [
@@ -59,12 +59,32 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--bg-primary)]" />
         {/* Glow orbs */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-ropar-accent/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
+
+        {/* Signature motif — Shivalik hills + the Satluj flowing beneath the hero */}
+        <svg
+          className="absolute bottom-0 left-0 w-full h-40 sm:h-56 pointer-events-none"
+          viewBox="0 0 1440 220"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path d="M0,180 C240,100 380,140 600,90 C820,40 1000,120 1220,70 C1320,48 1400,60 1440,80 L1440,220 L0,220 Z" fill="#123b3b" opacity="0.55" />
+          <path d="M0,200 C260,140 460,170 680,130 C900,90 1100,160 1320,120 C1380,110 1420,115 1440,120 L1440,220 L0,220 Z" fill="#0b1e20" opacity="0.85" />
+          <path
+            d="M0,196 C180,176 320,208 520,190 C740,170 860,198 1080,182 C1240,170 1340,186 1440,178"
+            fill="none"
+            stroke="#2a8c82"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            opacity="0.75"
+            className="animate-pulse-slow"
+          />
+        </svg>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
           <motion.div variants={stagger} initial="hidden" animate="show">
             <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm text-white/80 mb-6">
-              <Zap className="w-4 h-4 text-yellow-400" />
+              <Zap className="w-4 h-4 text-ropar-gold" />
               IIT Ropar's Official Knowledge Platform
             </motion.div>
 
@@ -78,7 +98,10 @@ export default function LandingPage() {
               share expertise, and build a living knowledge base together.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.div variants={fadeUp} className="relative flex flex-col sm:flex-row gap-4 justify-center py-2">
+              {/* Gate pillars — a quiet nod to the Indus-Valley-inspired campus entrance */}
+              <span className="hidden sm:block absolute -left-6 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary-400/50 to-transparent" />
+              <span className="hidden sm:block absolute -right-6 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary-400/50 to-transparent" />
               <Link to="/explore">
                 <button className="group flex items-center gap-2 bg-white text-ropar-navy font-bold py-4 px-8 rounded-2xl hover:bg-white/90 transition-all shadow-2xl text-base">
                   <Search className="w-5 h-5" />
@@ -95,7 +118,7 @@ export default function LandingPage() {
               )}
               {isAuthenticated && (
                 <Link to="/ask">
-                  <button className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-bold py-4 px-8 rounded-2xl transition-all shadow-lg text-base">
+                  <button className="flex items-center gap-2 bg-gradient-to-r from-ropar-gold to-primary-600 hover:from-primary-500 hover:to-ropar-gold text-white font-bold py-4 px-8 rounded-2xl transition-all shadow-lg text-base">
                     Ask a Question
                   </button>
                 </Link>
@@ -209,7 +232,7 @@ export default function LandingPage() {
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-8">
               <h2 className="font-display text-2xl font-bold text-primary-color flex items-center gap-2">
-                <TrendingUp className="w-6 h-6 text-orange-400" />
+                <TrendingUp className="w-6 h-6 text-ropar-gold" />
                 Trending This Week
               </h2>
               <Link to="/explore?sort=votes" className="text-primary-400 hover:text-primary-300 text-sm flex items-center gap-1">
@@ -273,7 +296,7 @@ export default function LandingPage() {
               </p>
               <div className="flex gap-4 justify-center">
                 <Link to="/register">
-                  <button className="bg-gradient-to-r from-primary-600 to-purple-600 hover:from-primary-500 hover:to-purple-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-glow-sm">
+                  <button className="bg-gradient-to-r from-primary-600 to-ropar-accent hover:from-primary-500 hover:to-ropar-accent text-white font-bold py-3 px-8 rounded-xl transition-all shadow-glow-sm">
                     Create Free Account
                   </button>
                 </Link>
