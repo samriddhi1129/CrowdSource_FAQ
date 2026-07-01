@@ -19,6 +19,7 @@ import AIAssistantPage  from './pages/AIAssistantPage';
 import ForgotPassword   from './pages/ForgotPassword';
 import ResetPassword    from './pages/ResetPassword';
 import VerifyEmail      from './pages/VerifyEmail';
+import AuthCallback     from './pages/AuthCallback';
 import NotFoundPage     from './pages/NotFoundPage';
 import SettingsPage     from './pages/SettingsPage';
 
@@ -81,6 +82,7 @@ export default function App() {
         <Route path="/forgot-password" element={<PublicOnlyRoute><ForgotPassword /></PublicOnlyRoute>} />
         <Route path="/reset-password"  element={<ResetPassword />} />
         <Route path="/verify-email"    element={<VerifyEmail />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
 
         {/* Main app with layout */}
         <Route path="/" element={<MainLayout />}>

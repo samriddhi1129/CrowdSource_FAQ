@@ -1,5 +1,6 @@
 // backend/src/routes/index.js
 const express = require('express');
+const passport = require('../config/passport');
 const router = express.Router();
 
 const authController = require('../controllers/auth.controller');
@@ -9,6 +10,7 @@ const usersController = require('../controllers/users.controller');
 const categoriesController = require('../controllers/categories.controller');
 const analyticsController = require('../controllers/analytics.controller');
 const { authenticate, optionalAuth, authorize, requireVerified } = require('../middleware/auth');
+const { generateAccessToken, generateRefreshToken } = require('../utils/jwt');
 
 // =============================================
 // AUTH ROUTES
@@ -20,6 +22,58 @@ router.post('/auth/verify-email', authController.verifyEmail);
 router.post('/auth/forgot-password', authController.forgotPassword);
 router.post('/auth/reset-password', authController.resetPassword);
 router.get('/auth/me', authenticate, authController.getMe);
+
+// ---- Google OAuth ----
+router.get('/auth/google', (req, res, next) => {
+  if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+    return res.status(503).json({
+      success: false,
+      message: 'Google login is not configured on this server yet. Set GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET in backend/.env.',
+    });
+  }
+  passport.authenticate('google', { scope: ['profile', 'email'], session: false })(req, res, next);
+});
+
+router.get(
+  '/auth/google/callback',
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=google_auth_failed`,
+  }),
+  (req, res) => {
+    try {
+      const user = req.user;
+      
+      // Generate tokens with correct payload structure (same as login)
+      const tokenPayload = { 
+        userId: user.id, 
+        email: user.email, 
+        role: user.role 
+      };
+      const accessToken = generateAccessToken(tokenPayload);
+      const refreshToken = generateRefreshToken(tokenPayload);
+      
+      // Redirect with all user data
+      const redirectUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}/auth/callback?` +
+        `token=${accessToken}&` +
+        `refresh=${refreshToken}&` +
+        `userId=${user.id}&` +
+        `email=${encodeURIComponent(user.email)}&` +
+        `username=${encodeURIComponent(user.username || '')}&` +
+        `fullName=${encodeURIComponent(user.full_name || '')}&` +
+        `role=${user.role}&` +
+        `status=${user.status || 'active'}&` +
+        `emailVerified=${user.email_verified || true}&` +
+        `avatarUrl=${encodeURIComponent(user.avatar_url || '')}&` +
+        `reputation=${user.reputation_score || 0}`;
+        
+      res.redirect(redirectUrl);
+    } catch (err) {
+      console.error('Google callback error:', err);
+      res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=auth_failed`);
+    }
+  }
+);
 
 // =============================================
 // QUESTIONS ROUTES

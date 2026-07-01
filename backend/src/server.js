@@ -8,7 +8,7 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const fs = require('fs');
-
+const passport = require('./config/passport');
 const routes = require('./routes');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 const { testConnection } = require('./config/database');
@@ -69,6 +69,7 @@ app.use('/api/auth/register', authLimiter);
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(passport.initialize());
 
 // HTTP request logging
 if (process.env.NODE_ENV !== 'test') {

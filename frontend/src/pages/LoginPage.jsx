@@ -28,9 +28,10 @@ export default function LoginPage() {
     onError: (e) => toast.error(e.response?.data?.message || 'Login failed'),
   });
 
-  const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL || '/api'}/auth/google`;
-  };
+const handleGoogleLogin = () => {
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  window.location.href = `${apiUrl}/api/auth/google`;
+};
 
   return (
     <div className="min-h-screen gradient-bg hero-pattern flex items-center justify-center px-4 py-12">
