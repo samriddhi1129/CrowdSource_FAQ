@@ -47,13 +47,27 @@ const PublicOnlyRoute = ({ children }) => {
 export default function App() {
   const { user } = useAuthStore();
 
-  // Apply theme preference
+  // Apply theme preference dynamically
   useEffect(() => {
     const theme = user?.theme_preference || localStorage.getItem('theme') || 'dark';
-    if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const applyTheme = () => {
+      if (theme === 'dark' || (theme === 'system' && mediaQuery.matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
+
+    // Initial check
+    applyTheme();
+
+    // Listen dynamically if set to system
+    if (theme === 'system') {
+      mediaQuery.addEventListener('change', applyTheme);
+      // Cleanup listener on unmount or if theme setting changes
+      return () => mediaQuery.removeEventListener('change', applyTheme);
     }
   }, [user?.theme_preference]);
 
