@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import {
   MapPin, Globe, Github, Linkedin, Calendar, MessageSquare,
-  CheckCircle, Award, Star, TrendingUp, BookOpen, ExternalLink
+  CheckCircle, Award, Star, TrendingUp, BookOpen
 } from 'lucide-react';
 import { userService } from '../services/api';
 import { format, formatDistanceToNow } from 'date-fns';
@@ -20,7 +20,7 @@ const BADGE_STYLES = {
 };
 
 function TrustMeter({ score }) {
-  const pct  = Math.min(100, score);
+  const pct   = Math.min(100, score);
   const color = pct >= 80 ? '#10b981' : pct >= 50 ? '#6366f1' : '#f59e0b';
   const label = pct >= 80 ? 'Expert' : pct >= 50 ? 'Trusted' : pct >= 25 ? 'Active' : 'Newcomer';
   return (
@@ -38,6 +38,33 @@ function TrustMeter({ score }) {
           style={{ background: `linear-gradient(90deg, ${color}80, ${color})` }}
         />
       </div>
+    </div>
+  );
+}
+
+// Avatar component that handles Google photos correctly
+function UserAvatar({ avatarUrl, fullName, roleColor, size = 'lg' }) {
+  const [imgError, setImgError] = React.useState(false);
+
+  const sizeClass = size === 'lg'
+    ? 'w-24 h-24 sm:w-28 sm:h-28 text-4xl'
+    : 'w-10 h-10 text-base';
+
+  if (avatarUrl && !imgError) {
+    return (
+      <img
+        src={avatarUrl}
+        alt={fullName}
+        className={`${sizeClass} rounded-2xl object-cover ring-2 ring-primary-500/30`}
+        referrerPolicy="no-referrer"
+        onError={() => setImgError(true)}
+      />
+    );
+  }
+
+  return (
+    <div className={`${sizeClass} rounded-2xl bg-gradient-to-br ${roleColor} flex items-center justify-center text-white font-display font-extrabold`}>
+      {fullName?.[0]?.toUpperCase() || '?'}
     </div>
   );
 }
@@ -64,7 +91,9 @@ export default function ProfilePage() {
           </div>
         </div>
         <div className="grid md:grid-cols-3 gap-4">
-          {[...Array(3)].map((_, i) => <div key={i} className="skeleton h-32 rounded-2xl" />)}
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="skeleton h-32 rounded-2xl" />
+          ))}
         </div>
       </div>
     );
@@ -75,7 +104,9 @@ export default function ProfilePage() {
       <div className="max-w-5xl mx-auto px-4 py-20 text-center">
         <p className="text-4xl mb-4">👤</p>
         <h2 className="font-display text-2xl font-bold text-primary-color mb-2">User Not Found</h2>
-        <Link to="/explore"><button className="text-primary-400 hover:text-primary-300 mt-4">← Back to Explore</button></Link>
+        <Link to="/explore">
+          <button className="text-primary-400 hover:text-primary-300 mt-4">← Back to Explore</button>
+        </Link>
       </div>
     );
   }
@@ -84,35 +115,38 @@ export default function ProfilePage() {
   const isOwn = currentUser?.username === username;
 
   const roleColors = {
-    student: 'from-emerald-500 to-teal-500',
+    student:    'from-emerald-500 to-teal-500',
     researcher: 'from-purple-500 to-indigo-500',
-    faculty: 'from-amber-500 to-orange-500',
-    admin: 'from-red-500 to-pink-500',
+    faculty:    'from-amber-500 to-orange-500',
+    admin:      'from-red-500 to-pink-500',
   };
 
+  const roleColor = roleColors[user.role] || 'from-primary-500 to-purple-500';
+
   const stats = [
-    { label: 'Reputation', value: user.reputation_score, icon: Star, color: 'text-amber-400' },
-    { label: 'Questions', value: user.question_count, icon: MessageSquare, color: 'text-blue-400' },
-    { label: 'Answers', value: user.answer_count, icon: CheckCircle, color: 'text-green-400' },
-    { label: 'Trust Score', value: `${user.trust_score}%`, icon: TrendingUp, color: 'text-purple-400' },
+    { label: 'Reputation',  value: user.reputation_score,    icon: Star,         color: 'text-amber-400'  },
+    { label: 'Questions',   value: user.question_count,      icon: MessageSquare, color: 'text-blue-400'   },
+    { label: 'Answers',     value: user.answer_count,        icon: CheckCircle,   color: 'text-green-400'  },
+    { label: 'Trust Score', value: `${user.trust_score}%`,   icon: TrendingUp,    color: 'text-purple-400' },
   ];
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      {/* Profile Header */}
+
+      {/* ── Profile Header ── */}
       <div className="glass-card rounded-3xl p-6 sm:p-8 mb-6">
         <div className="flex flex-col sm:flex-row gap-6">
+
           {/* Avatar */}
           <div className="relative flex-shrink-0">
-            {user.avatar_url ? (
-              <img src={user.avatar_url} className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover ring-2 ring-primary-500/30" alt="" />
-            ) : (
-              <div className={`w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br ${roleColors[user.role] || 'from-primary-500 to-purple-500'} flex items-center justify-center text-white text-4xl font-display font-extrabold`}>
-                {user.full_name?.[0]}
-              </div>
-            )}
+            <UserAvatar
+              avatarUrl={user.avatar_url}
+              fullName={user.full_name}
+              roleColor={roleColor}
+              size="lg"
+            />
             <div className="absolute -bottom-2 -right-2">
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize bg-gradient-to-r ${roleColors[user.role] || 'from-primary-500 to-purple-500'} text-white`}>
+              <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize bg-gradient-to-r ${roleColor} text-white`}>
                 {user.role}
               </span>
             </div>
@@ -122,7 +156,9 @@ export default function ProfilePage() {
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-4 mb-2">
               <div>
-                <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-primary-color">{user.full_name}</h1>
+                <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-primary-color">
+                  {user.full_name}
+                </h1>
                 <p className="text-secondary-color text-sm">@{user.username}</p>
               </div>
               {isOwn && (
@@ -149,34 +185,42 @@ export default function ProfilePage() {
             )}
 
             {user.bio && (
-              <p className="text-sm text-secondary-color leading-relaxed mb-4 max-w-xl">{user.bio}</p>
+              <p className="text-sm text-secondary-color leading-relaxed mb-4 max-w-xl">
+                {user.bio}
+              </p>
             )}
 
             {/* Research interests */}
             {user.research_interests?.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-4">
                 {user.research_interests.map((r, i) => (
-                  <span key={i} className="text-xs px-2.5 py-1 rounded-lg bg-primary-500/10 text-primary-400 border border-primary-500/20">
+                  <span
+                    key={i}
+                    className="text-xs px-2.5 py-1 rounded-lg bg-primary-500/10 text-primary-400 border border-primary-500/20"
+                  >
                     {r}
                   </span>
                 ))}
               </div>
             )}
 
-            {/* Links */}
+            {/* Social Links */}
             <div className="flex items-center gap-3">
               {user.website && (
-                <a href={user.website} target="_blank" rel="noreferrer" className="text-secondary-color hover:text-primary-400 transition-colors">
+                <a href={user.website} target="_blank" rel="noreferrer"
+                  className="text-secondary-color hover:text-primary-400 transition-colors">
                   <Globe className="w-4 h-4" />
                 </a>
               )}
               {user.github_url && (
-                <a href={user.github_url} target="_blank" rel="noreferrer" className="text-secondary-color hover:text-primary-400 transition-colors">
+                <a href={user.github_url} target="_blank" rel="noreferrer"
+                  className="text-secondary-color hover:text-primary-400 transition-colors">
                   <Github className="w-4 h-4" />
                 </a>
               )}
               {user.linkedin_url && (
-                <a href={user.linkedin_url} target="_blank" rel="noreferrer" className="text-secondary-color hover:text-blue-400 transition-colors">
+                <a href={user.linkedin_url} target="_blank" rel="noreferrer"
+                  className="text-secondary-color hover:text-blue-400 transition-colors">
                   <Linkedin className="w-4 h-4" />
                 </a>
               )}
@@ -188,13 +232,13 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Trust meter */}
+        {/* Trust Meter */}
         <div className="mt-6 pt-5 border-t border-white/5">
           <TrustMeter score={user.trust_score} />
         </div>
       </div>
 
-      {/* Stats */}
+      {/* ── Stats ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {stats.map(({ label, value, icon: Icon, color }) => (
           <motion.div
@@ -210,7 +254,7 @@ export default function ProfilePage() {
         ))}
       </div>
 
-      {/* Badges */}
+      {/* ── Badges ── */}
       {user.badges?.length > 0 && (
         <div className="glass-card rounded-2xl p-6 mb-6">
           <h2 className="font-display font-bold text-primary-color mb-4 flex items-center gap-2">
@@ -222,7 +266,7 @@ export default function ProfilePage() {
               <motion.div
                 key={b.id}
                 whileHover={{ scale: 1.05 }}
-                title={`${b.name}: ${b.description || ''}\nEarned ${formatDistanceToNow(new Date(b.awarded_at), { addSuffix: true })}`}
+                title={`${b.name}\nEarned ${formatDistanceToNow(new Date(b.awarded_at), { addSuffix: true })}`}
                 className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm cursor-default ${BADGE_STYLES[b.badge_type] || 'bg-white/5 text-secondary-color'}`}
               >
                 <span className="text-base">{b.icon}</span>
@@ -233,25 +277,29 @@ export default function ProfilePage() {
         </div>
       )}
 
+      {/* ── Recent Questions + Top Answers ── */}
       <div className="grid md:grid-cols-2 gap-6">
+
         {/* Recent Questions */}
         <div className="glass-card rounded-2xl p-6">
           <h2 className="font-display font-bold text-primary-color mb-4 flex items-center gap-2">
             <MessageSquare className="w-5 h-5 text-blue-400" />
             Recent Questions
           </h2>
-          {recent_questions?.length === 0 ? (
+          {!recent_questions?.length ? (
             <p className="text-secondary-color text-sm text-center py-6">No questions yet</p>
           ) : (
             <div className="space-y-3">
-              {recent_questions?.map(q => (
+              {recent_questions.map(q => (
                 <Link key={q.id} to={`/questions/${q.id}`}>
                   <div className="group p-3 rounded-xl hover:bg-white/5 transition-all border border-transparent hover:border-white/5">
                     <p className="text-sm text-primary-color group-hover:text-primary-400 transition-colors line-clamp-2 mb-1 leading-snug">
                       {q.title}
                     </p>
                     <div className="flex items-center gap-2 text-xs text-secondary-color">
-                      <span className={`status-${q.status} px-1.5 py-0.5 rounded text-[10px]`}>{q.status}</span>
+                      <span className={`status-${q.status} px-1.5 py-0.5 rounded text-[10px]`}>
+                        {q.status}
+                      </span>
                       <span>{q.vote_score} votes</span>
                       <span>{q.answer_count} answers</span>
                     </div>
@@ -268,15 +316,17 @@ export default function ProfilePage() {
             <CheckCircle className="w-5 h-5 text-green-400" />
             Top Answers
           </h2>
-          {top_answers?.length === 0 ? (
+          {!top_answers?.length ? (
             <p className="text-secondary-color text-sm text-center py-6">No answers yet</p>
           ) : (
             <div className="space-y-3">
-              {top_answers?.map(a => (
+              {top_answers.map(a => (
                 <Link key={a.id} to={`/questions/${a.question_id}`}>
                   <div className="group p-3 rounded-xl hover:bg-white/5 transition-all border border-transparent hover:border-white/5 flex items-start gap-3">
                     <div className={`text-center rounded-lg px-2 py-1 text-xs flex-shrink-0 ${
-                      a.is_accepted ? 'bg-green-500/10 text-green-400' : 'bg-primary-500/10 text-primary-400'
+                      a.is_accepted
+                        ? 'bg-green-500/10 text-green-400'
+                        : 'bg-primary-500/10 text-primary-400'
                     }`}>
                       <p className="font-bold">{a.vote_score}</p>
                       <p className="text-[10px]">{a.is_accepted ? '✓' : 'votes'}</p>
@@ -290,6 +340,7 @@ export default function ProfilePage() {
             </div>
           )}
         </div>
+
       </div>
     </div>
   );
