@@ -224,7 +224,7 @@ export default function MainLayout() {
         </div>
       </aside>
 
-      {/* ════════════════════════════════════════
+{/* ════════════════════════════════════════
           MOBILE SIDEBAR OVERLAY
       ════════════════════════════════════════ */}
       <AnimatePresence>
@@ -243,38 +243,82 @@ export default function MainLayout() {
               initial={{ x: -280 }}
               animate={{ x: 0 }}
               exit={{ x: -280 }}
-              className="absolute left-0 top-0 h-full w-72 glass-card border-r border-color z-50 p-4"
+              className="absolute left-0 top-0 h-full w-72 glass-card border-r border-color z-50 p-4 flex flex-col justify-between"
             >
-              <div className="flex justify-between items-center mb-6">
-                <p className="font-display font-bold gradient-text">Vicharanshala Lab</p>
-                <button onClick={() => setSidebarOpen(false)}>
-                  <X className="w-5 h-5 text-secondary-color" />
-                </button>
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <p className="font-display font-bold gradient-text">Vicharanshala Lab</p>
+                  <button onClick={() => setSidebarOpen(false)}>
+                    <X className="w-5 h-5 text-secondary-color" />
+                  </button>
+                </div>
+                
+                <nav className="space-y-1">
+                  {navItems.map(({ path, icon: Icon, label }) => (
+                    <Link key={path} to={path} onClick={() => setSidebarOpen(false)}>
+                      <div className={`nav-item ${isActive(path) ? 'active text-primary-300' : 'text-secondary-color'}`}>
+                        <Icon className="w-4 h-4" />
+                        <span>{label}</span>
+                      </div>
+                    </Link>
+                  ))}
+                  
+                  {isAuthenticated && (
+                    <>
+                      <div className="pt-4 pb-1 px-3">
+                        <p className="text-xs font-semibold text-secondary-color uppercase tracking-wider">My Space</p>
+                      </div>
+                      
+                      <Link to={`/users/${user?.username}`} onClick={() => setSidebarOpen(false)}>
+                        <div className={`nav-item ${isActive(`/users/${user?.username}`) ? 'active text-primary-300' : 'text-secondary-color'}`}>
+                          <User className="w-4 h-4" />
+                          <span>My Profile</span>
+                        </div>
+                      </Link>
+                      
+                      <Link to="/settings" onClick={() => setSidebarOpen(false)}>
+                        <div className={`nav-item ${isActive('/settings') ? 'active text-primary-300' : 'text-secondary-color'}`}>
+                          <Settings className="w-4 h-4" />
+                          <span>Settings</span>
+                        </div>
+                      </Link>
+
+                      {['admin', 'superadmin'].includes(user?.role) && (
+                        <Link to="/admin" onClick={() => setSidebarOpen(false)}>
+                          <div className={`nav-item ${isActive('/admin') ? 'active text-primary-300' : 'text-secondary-color'}`}>
+                            <Shield className="w-4 h-4" />
+                            <span>Admin Panel</span>
+                          </div>
+                        </Link>
+                      )}
+                    </>
+                  )}
+                </nav>
               </div>
-              <nav className="space-y-1">
-                {navItems.map(({ path, icon: Icon, label }) => (
-                  <Link key={path} to={path} onClick={() => setSidebarOpen(false)}>
-                    <div className={`nav-item ${isActive(path) ? 'active text-primary-300' : 'text-secondary-color'}`}>
-                      <Icon className="w-4 h-4" />
-                      <span>{label}</span>
-                    </div>
-                  </Link>
-                ))}
-                {isAuthenticated && (
-                  <>
-                    <Link to={`/users/${user?.username}`} onClick={() => setSidebarOpen(false)}>
-                      <div className="nav-item text-secondary-color">
-                        <User className="w-4 h-4" /><span>My Profile</span>
-                      </div>
+
+              {/* Mobile Footer / Action Items */}
+              <div className="border-t border-color pt-4 mt-auto">
+                {isAuthenticated ? (
+                  <button
+                    onClick={() => {
+                      setSidebarOpen(false);
+                      handleLogout();
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-400 hover:bg-red-500/10 rounded-xl transition-all"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="font-medium">Sign Out</span>
+                  </button>
+                ) : (
+                  <div className="space-y-2">
+                    <Link to="/login" onClick={() => setSidebarOpen(false)}>
+                      <button className="w-full text-sm py-2 px-4 rounded-xl border border-primary-500/30 text-primary-400 hover:bg-primary-500/10 transition-all">
+                        Sign In
+                      </button>
                     </Link>
-                    <Link to="/settings" onClick={() => setSidebarOpen(false)}>
-                      <div className="nav-item text-secondary-color">
-                        <Settings className="w-4 h-4" /><span>Settings</span>
-                      </div>
-                    </Link>
-                  </>
+                  </div>
                 )}
-              </nav>
+              </div>
             </motion.div>
           </motion.div>
         )}
