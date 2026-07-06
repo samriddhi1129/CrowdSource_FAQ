@@ -161,4 +161,7 @@ const seedData = async () => {
 
 seedData()
   .then(() => process.exit(0))
-  .catch(() => process.exit(1));
+  .catch((err) => {
+    console.error('SEED FAILED:', err.message);
+    process.exit(1);
+  });
