@@ -8,6 +8,8 @@
 
 A production-ready, community-driven FAQ platform built for IIT Ropar — where students, researchers, faculty and visitors can ask questions, share knowledge, and build a living knowledge base together.
 
+**Live Link**: https://vicharanshala-frontend.onrender.com
+
 ---
 
 ## ✨ Key Features
