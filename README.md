@@ -1,14 +1,22 @@
 #  Vicharanshala Lab — FAQ Crowdsourcing Platform
 ### IIT Ropar Community Knowledge Base
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-vicharanshala--frontend.onrender.com-brightgreen?style=for-the-badge&logo=render)](https://vicharanshala-frontend.onrender.com)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-team--6a314e2012663badc7eb1814-181717?style=for-the-badge&logo=github)](https://github.com/vicharanashala/team-6a314e2012663badc7eb1814)
+
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org)
 [![React](https://img.shields.io/badge/React-18-blue.svg)](https://react.dev)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://postgresql.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF.svg)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC.svg)](https://tailwindcss.com)
+[![Express.js](https://img.shields.io/badge/Express.js-4-black.svg)](https://expressjs.com)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED.svg)](https://www.docker.com)
 
 A production-ready, community-driven FAQ platform built for IIT Ropar — where students, researchers, faculty and visitors can ask questions, share knowledge, and build a living knowledge base together.
 
-**Live Link**: https://vicharanshala-frontend.onrender.com
+**🌐 Live Link**: [https://vicharanshala-frontend.onrender.com](https://vicharanshala-frontend.onrender.com)
+**📦 GitHub**: [https://github.com/vicharanashala/team-6a314e2012663badc7eb1814](https://github.com/vicharanashala/team-6a314e2012663badc7eb1814)
 
 ---
 
@@ -37,22 +45,22 @@ A production-ready, community-driven FAQ platform built for IIT Ropar — where 
 ## 🏗️ Tech Stack
 
 ### Frontend
-- **React 18** + **Vite** — fast development
-- **Tailwind CSS** — utility-first styling
-- **Framer Motion** — smooth animations
-- **TanStack Query** — server state management
-- **Zustand** — client state
-- **Recharts** + **D3** — data visualizations
-- **Axios** — HTTP client with interceptors
+- **[React 18](https://react.dev)** + **[Vite](https://vitejs.dev)** — fast development
+- **[Tailwind CSS](https://tailwindcss.com)** — utility-first styling
+- **[Framer Motion](https://www.framer.com/motion/)** — smooth animations
+- **[TanStack Query](https://tanstack.com/query/latest)** — server state management
+- **[Zustand](https://zustand-demo.pmnd.rs/)** — client state
+- **[Recharts](https://recharts.org/)** + **[D3](https://d3js.org/)** — data visualizations
+- **[Axios](https://axios-http.com/)** — HTTP client with interceptors
 
 ### Backend
-- **Node.js 20** + **Express.js**
-- **PostgreSQL 15** — primary database
-- **JWT** — stateless authentication
-- **Passport.js** — OAuth strategy
-- **Nodemailer** — transactional email
-- **Winston** — structured logging
-- **Helmet** + **express-rate-limit** — security
+- **[Node.js 20](https://nodejs.org/)** + **[Express.js](https://expressjs.com/)**
+- **[PostgreSQL 15](https://www.postgresql.org/)** — primary database
+- **[JWT](https://jwt.io/)** — stateless authentication
+- **[Passport.js](https://www.passportjs.org/)** — OAuth strategy
+- **[Nodemailer](https://nodemailer.com/)** — transactional email
+- **[Winston](https://github.com/winstonjs/winston)** — structured logging
+- **[Helmet](https://helmetjs.github.io/)** + **[express-rate-limit](https://github.com/express-rate-limit/express-rate-limit)** — security
 
 ---
 
@@ -138,8 +146,8 @@ vicharanshala/
 ##  Quick Start
 
 ### Prerequisites
-- Node.js 20+
-- PostgreSQL 15+
+- [Node.js 20+](https://nodejs.org/en/download/)
+- [PostgreSQL 15+](https://www.postgresql.org/download/)
 - npm / yarn
 
 ### 1. Clone & Install
@@ -162,16 +170,15 @@ cp backend/.env.example backend/.env
 ```
 
 **Required backend `.env` values:**
+
 ```env
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=vicharanshala_db
 DB_USER=postgres
 DB_PASSWORD=your_password
-
 JWT_SECRET=your_super_secret_min_32_chars_here
 JWT_REFRESH_SECRET=another_secret_here
-
 CLIENT_URL=http://localhost:5173
 ```
 
@@ -195,9 +202,10 @@ npm run db:seed
 npm run dev
 ```
 
-Open **http://localhost:5173**
+Open **[http://localhost:5173](http://localhost:5173)**
 
 **Demo Accounts:**
+
 | Role | Email | Password |
 |------|-------|----------|
 | Admin | `admin@vicharanshala.iitropar.ac.in` | `Admin@123!` |
@@ -224,11 +232,12 @@ docker exec vicharanshala_api node src/config/seed.js
 ```
 
 Services:
-- **Frontend** → http://localhost (port 80)
-- **Backend API** → http://localhost:5000
-- **PostgreSQL** → localhost:5432
+- **Frontend** → https://vicharanshala-frontend.onrender.com
+- **Backend API** → https://vicharansala-backend.onrender.com
+-  **PostgreSQL** → [Render PostgreSQL](https://dashboard.render.com)
 
 ### Stop
+
 ```bash
 docker-compose down
 # Add -v to also remove database volume
@@ -239,6 +248,7 @@ docker-compose down
 ## 🔌 API Reference
 
 ### Authentication
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/auth/register` | Register new user |
@@ -250,6 +260,7 @@ docker-compose down
 | GET  | `/api/auth/me` | Get current user |
 
 ### Questions
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/questions` | List questions (search, filter, paginate) |
@@ -263,6 +274,7 @@ docker-compose down
 | GET | `/api/questions/search/similar` | Similar question detection |
 
 ### Answers
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/questions/:id/answers` | Get answers for question |
@@ -274,6 +286,7 @@ docker-compose down
 | POST | `/api/answers/:id/validate` | Community validate answer |
 
 ### Analytics
+
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/analytics/overview` | Platform statistics |
@@ -287,6 +300,7 @@ docker-compose down
 ## 🗄️ Database Schema
 
 ### Core Tables
+
 - **users** — profiles, auth, reputation, settings
 - **questions** — title, body, status, votes, search vector
 - **answers** — body, validation, wiki mode
@@ -308,8 +322,9 @@ docker-compose down
 - **question_followers** — question subscriptions
 
 ### Key PostgreSQL Features Used
+
 - **Full-text search** (`tsvector` / `tsquery`) with GIN indexes
-- **Trigram matching** (`pg_trgm`) for fuzzy search
+- **Trigram matching** ([`pg_trgm`](https://www.postgresql.org/docs/current/pgtrgm.html)) for fuzzy search
 - **UUID** primary keys throughout
 - **Triggers** for auto-updating counts, timestamps, search vectors
 - **Check constraints** for data integrity
@@ -317,31 +332,13 @@ docker-compose down
 
 ---
 
-## 🎨 UI Design System
-
-### Color Palette (IIT Ropar Inspired)
-- **Primary** — Indigo (`#6366f1`) — knowledge and trust
-- **Navy** — `#0f2244` — IIT Ropar deep blue
-- **Gold** — `#f59e0b` — achievement and excellence
-- **Teal** — `#0891b2` — innovation
-- **Glassmorphism** — `backdrop-blur` + semi-transparent backgrounds
-
-### Design Principles
-1. **Glassmorphism** — frosted glass cards with subtle borders
-2. **Dark-first** — dark mode default, light mode available
-3. **Micro-animations** — Framer Motion for all transitions
-4. **Responsive** — mobile-first breakpoints
-5. **Accessibility** — semantic HTML, ARIA labels, keyboard navigation
-
----
-
 ## 🔒 Security Features
 
-- **JWT** with short-lived access tokens (7d) + refresh tokens (30d)
-- **bcrypt** password hashing (12 rounds)
-- **Helmet.js** HTTP security headers
+- **[JWT](https://jwt.io/)** with short-lived access tokens (7d) + refresh tokens (30d)
+- **[bcrypt](https://github.com/kelektiv/node.bcrypt.js)** password hashing (12 rounds)
+- **[Helmet.js](https://helmetjs.github.io/)** HTTP security headers
 - **CORS** configured with allowlist
-- **Rate limiting** — 100 req/15min globally, 10 req/15min for auth
+- **[Rate limiting](https://github.com/express-rate-limit/express-rate-limit)** — 100 req/15min globally, 10 req/15min for auth
 - **Input validation** on all endpoints
 - **SQL injection prevention** — parameterized queries throughout
 - **XSS prevention** — HTML sanitization in rich text
@@ -353,6 +350,7 @@ docker-compose down
 ## 🚢 Production Deployment Guide
 
 ### Environment Variables (Production)
+
 ```env
 NODE_ENV=production
 JWT_SECRET=<64+ character random string>
@@ -368,18 +366,21 @@ CLIENT_URL=https://vicharanshala.iitropar.ac.in
 ```
 
 ### Google OAuth Setup
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com)
 2. Create a new project
-3. Configure the OAuth consent screen and create OAuth 2.0 credentials (do not rely on the deprecated Google+ API). Optionally enable the People API if you need profile scopes.
+3. Configure the [OAuth consent screen](https://console.cloud.google.com/apis/credentials/consent) and create [OAuth 2.0 credentials](https://console.cloud.google.com/apis/credentials)
 4. Add authorized redirect URIs: `https://yourdomain.com/api/auth/google/callback`
 
-### SSL/TLS (Let's Encrypt)
+### SSL/TLS ([Let's Encrypt](https://letsencrypt.org/))
+
 ```bash
 apt install certbot python3-certbot-nginx
 certbot --nginx -d vicharanshala.iitropar.ac.in
 ```
 
 ### Database Backup
+
 ```bash
 # Backup
 pg_dump -U postgres vicharanshala_db > backup_$(date +%Y%m%d).sql
@@ -393,18 +394,21 @@ psql -U postgres vicharanshala_db < backup_20240101.sql
 ## 🛠️ Development Guide
 
 ### Adding a New API Endpoint
+
 1. Add controller function in `backend/src/controllers/`
 2. Register route in `backend/src/routes/index.js`
 3. Add corresponding service call in `frontend/src/services/api.js`
 4. Create/update React component to use it
 
 ### Running Database Migrations
+
 ```bash
 # After schema changes, update migrate.js and run:
 cd backend && npm run db:migrate
 ```
 
 ### Environment Variables Reference
+
 See `backend/.env.example` for all available configuration options.
 
 ---
@@ -412,10 +416,10 @@ See `backend/.env.example` for all available configuration options.
 ## 📈 Roadmap
 
 - [ ] WebSocket real-time notifications
-- [ ] Advanced AI answer generation (Claude API integration)
-- [ ] Mobile apps (React Native)
-- [ ] LaTeX math rendering support
-- [ ] Code syntax highlighting in answers
+- [ ] Advanced AI answer generation ([Claude API](https://console.anthropic.com/) integration)
+- [ ] Mobile apps ([React Native](https://reactnative.dev/))
+- [ ] LaTeX math rendering support ([KaTeX](https://katex.org/))
+- [ ] Code syntax highlighting in answers ([Prism.js](https://prismjs.com/))
 - [ ] File attachments for questions
 - [ ] Multi-language support (Hindi)
 - [ ] Calendar integration for academic events
@@ -425,11 +429,11 @@ See `backend/.env.example` for all available configuration options.
 
 ## 🤝 Contributing
 
-1. Fork the repository
+1. Fork the [repository](https://github.com/vicharanashala/team-6a314e2012663badc7eb1814)
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. Commit changes: `git commit -m 'Add amazing feature'`
 4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+5. Open a [Pull Request](https://github.com/vicharanashala/team-6a314e2012663badc7eb1814/pulls)
 
 ---
 
@@ -441,12 +445,11 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 ## 🏛️ About
 
-**Vicharanshala Lab** (विचारणशाला — "Place of Inquiry") is the official FAQ platform of IIT Ropar, built to democratize academic knowledge and help every member of the IIT Ropar community find answers faster.
+**Vicharanshala Lab** — "Place of Inquiry" is the official FAQ platform of [IIT Ropar](https://www.iitrpr.ac.in/), built to democratize academic knowledge and help every member of the IIT Ropar community find answers faster.
 
-Built with ❤️ for the IIT Ropar community.
+Built with ❤️ for the [IIT Ropar](https://www.iitrpr.ac.in/) community.
 
 ---
-
 
 # team-6a314e2012663badc7eb1814
 FAQ Crowdsourcing project — Samriddhi Bansal
